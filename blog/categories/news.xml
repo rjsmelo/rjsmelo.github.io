@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title><![CDATA[Ricardo Melo]]></title>
-    <link href="/blog/categories/news.xml" rel="self"/>
-    <link href="/"/>
-    <updated>2016-01-16T18:31:36+00:00</updated>
-    <id>/</id>
+    <link href="http://rjsmelo.com/blog/categories/news.xml" rel="self"/>
+    <link href="http://rjsmelo.com/"/>
+    <updated>2016-01-16T19:14:09+00:00</updated>
+    <id>http://rjsmelo.com/</id>
         <generator uri="http://sculpin.io/">Sculpin</generator>
             <entry>
             <title type="html"><![CDATA[Hello World!]]></title>
-            <link href="/blog/2016/01/16/hello-world"/>
+            <link href="http://rjsmelo.com/blog/2016/01/16/hello-world"/>
             <updated>2016-01-16T00:00:00+00:00</updated>
-            <id>/blog/2016/01/16/hello-world</id>
+            <id>http://rjsmelo.com/blog/2016/01/16/hello-world</id>
             <content type="html"><![CDATA[<p>Hello (again), after a few years without writing nothing more that a few tweets, and not really looking forward to restore my old wordpress blog and copy over outdated posts, just decided to have a clean start.</p>
 
 <p>Let's see how the story goes!</p>

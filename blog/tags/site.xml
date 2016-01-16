@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title><![CDATA[Ricardo Melo]]></title>
+    <link href="/blog/tags/site.xml" rel="self"/>
+    <link href="/"/>
+    <updated>2016-01-16T17:49:44+00:00</updated>
+    <id>/</id>
+        <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Hello World!]]></title>
+            <link href="/blog/2016/01/16/hello-world"/>
+            <updated>2016-01-16T00:00:00+00:00</updated>
+            <id>/blog/2016/01/16/hello-world</id>
+            <content type="html"><![CDATA[<p>Hello (again), after a few years without writing nothing more that a few tweets, and not really looking forward to restore my old wordpress blog and copy over outdated posts, just decided to have a clean start.</p>
+
+<p>Let's see how the story goes!</p>
+
+<p>For the ones there that are slightly more geeks</p>
+
+<pre><code class="php">&lt;?php
+echo "Hello World!";
+</code></pre>
+
+<p>or</p>
+
+<pre><code class="bash">#!/bin/bash
+echo "Hello World!"
+</code></pre>
+
+<p>Also thank you to <a href="https://twitter.com/loige">@loice</a> for nagging me to reopen my blog.</p>
+]]></content>
+        </entry>
+    </feed>

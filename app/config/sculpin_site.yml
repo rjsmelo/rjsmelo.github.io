@@ -4,6 +4,8 @@
 title: Ricardo Melo
 subtitle: Fixing the World, one weird bug at a time!
 
+google_analytics_tracking_id: UA-27903853-1
+
 # Insert your disqus shortname
-#disqus:
-#    shortname:
+disqus:
+    shortname: rjsmelo

@@ -4,7 +4,7 @@
 # was downloaded and placed in this directory instead of sculpin having been
 # installed globally.
 
-sculpin generate --env=prod
+sculpin generate --env=prod --url=http://rjsmelo.com
 if [ $? -ne 0 ]; then echo "Could not generate the site"; exit 1; fi
 
 git stash

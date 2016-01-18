@@ -22,4 +22,4 @@ or
 echo "Hello World!"
 ```
 
-Also thank you to [@loice](https://twitter.com/loige) for nagging me to reopen my blog.
+Also thank you to [@loige](https://twitter.com/loige) for nagging me to reopen my blog.

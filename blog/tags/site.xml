@@ -3,7 +3,7 @@
     <title><![CDATA[Ricardo Melo]]></title>
     <link href="http://rjsmelo.com/blog/tags/site.xml" rel="self"/>
     <link href="http://rjsmelo.com/"/>
-    <updated>2016-01-16T19:14:09+00:00</updated>
+    <updated>2016-01-18T13:36:06+00:00</updated>
     <id>http://rjsmelo.com/</id>
         <generator uri="http://sculpin.io/">Sculpin</generator>
             <entry>
@@ -27,7 +27,7 @@ echo "Hello World!";
 echo "Hello World!"
 </code></pre>
 
-<p>Also thank you to <a href="https://twitter.com/loige">@loice</a> for nagging me to reopen my blog.</p>
+<p>Also thank you to <a href="https://twitter.com/loige">@loige</a> for nagging me to reopen my blog.</p>
 ]]></content>
         </entry>
     </feed>

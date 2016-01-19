@@ -2,9 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://rjsmelo.com</loc>
-    <lastmod>2016-01-18</lastmod>
+    <lastmod>2016-01-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+  </url>
+    <url>
+    <loc>http://rjsmelo.com/blog/2016/01/19/run-legacy-php-applications-from-command-line</loc>
+    <lastmod>2016-01-19T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
     <url>
     <loc>http://rjsmelo.com/blog/2016/01/16/hello-world</loc>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hello World! &mdash; Ricardo Melo &mdash; Fixing the World, one weird bug at a time!</title>
+        <title>Run legacy PHP applications from command line &mdash; Ricardo Melo &mdash; Fixing the World, one weird bug at a time!</title>
         <meta charset="utf-8">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,39 +65,196 @@
                 <div class="span8">
                         <article>
         <header>
-            <h2>Hello World! <small>post</small></h2>
+            <h2>Run legacy PHP applications from command line <small>post</small></h2>
         </header>
         <div>
-            <p>Hello (again), after a few years without writing nothing more that a few tweets, and not really looking forward to restore my old wordpress blog and copy over outdated posts, just decided to have a clean start.</p>
+            <p>Imagine that you already have a trustfully application that you have been running for a while, but there is a couple of common patterns that make you consider that you need a command line interface (CLI) for you application:</p>
 
-<p>Let's see how the story goes!</p>
+<ul>
+<li>You are running some sort of cron that does a HTTP call to some endpoint to run some task on your website (like sending emails, etc)</li>
+<li>You have some operation that you want to automate (using chef or something) and HTTP request may not play that nicely</li>
+<li>You want to add some "super mega user" commands (like password reset or other) tha can be performed from command line, instead of hacking the DB.</li>
+<li>Insert your own reason here ...</li>
+</ul>
 
-<p>For the ones there that are slightly more geeks</p>
+<p>So, how do we do this? especially without reinventing the well?</p>
+
+<h3 id="the-problem">The problem</h3>
+
+<p>Imagine that you have already a class on your application that performs your business logic, in this case, imagine that currently there is a form where you can edit a few values and then send the values to the server, that will be applied to the application by <code>Example_Admin_ProcessConfigurationValues</code> class bellow</p>
 
 <pre><code class="php">&lt;?php
-echo "Hello World!";
+
+class Example_Admin_ProcessConfigurationValues
+{
+  public function process(array $values)
+  {
+    // do some magic stuff with the configuration values
+  }
+}
 </code></pre>
 
-<p>or</p>
+<p>and now we want to supply the configuration values from command line as JSON file like this:</p>
 
-<pre><code class="bash">#!/bin/bash
-echo "Hello World!"
+<pre><code class="json">{
+  "configuration_key_a": "some value",
+  "configuration_key_b": [
+    "value 1",
+    "value 2",
+    "value 3",
+  ]
+  "configuration_key_c": "other value
+}
 </code></pre>
 
-<p>Also thank you to <a href="https://twitter.com/loige">@loige</a> for nagging me to reopen my blog.</p>
+<p>So the goal is to be able to run a command like the following</p>
+
+<pre><code class="bash">php somecommand.php config.json
+</code></pre>
+
+<p>That means that we need to to the following steps:</p>
+
+<ol>
+<li>Load the JSON file as a array</li>
+<li>Call <code>Example_Admin_ProcessConfigurationValues::process</code> with that array</li>
+<li>Done</li>
+</ol>
+
+<h3 id="symfony-console-component-to-the-rescue">Symfony Console Component to the rescue</h3>
+
+<p>Instead of reinvented the well we can use Symfony components to build this, I imagine that you are already using composer, so you should already have a <code>composer.json</code> file that will looks like this:</p>
+
+<pre><code class="json">{
+    "name": "example/project",
+    "license": "MIT",
+    "require": {
+        "php": "&gt;=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
+</code></pre>
+
+<p>Then you can just use the <a href="http://symfony.com/doc/current/components/console/introduction.html">Symfony Console Component</a> to be able to run your application from command line.</p>
+
+<p>You just need to add <code>symfony/console</code> as a new dependency:</p>
+
+<pre><code class="bash">composer require symfony/console
+</code></pre>
+
+<p>And then you can create a new console command like the following example:</p>
+
+<pre><code class="php">&lt;?php
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Example_Command_ConfigFromJsonCommand extends Command
+{
+    protected function configure()
+    {
+        $this-&gt;setName('setup:load-json')
+            -&gt;setDescription('Load configurations values from a JSON file')
+            -&gt;addArgument(
+                'jsonFile',
+                InputArgument::REQUIRED,
+                'Json file with configurations'
+            );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $jsonFile = $input-&gt;getArgument('jsonFile');
+
+        if (!file_exists($jsonFile)) {
+            $output-&gt;writeln('Error: Json file does not exists');
+
+            return 1;
+        }
+
+        $jsonFileContent = file_get_contents($jsonFile);
+
+        $config = json_decode($jsonFileContent, true);
+
+        if (!is_array($config)) {
+            $output-&gt;writeln('Error: Json file does not seams valid');
+
+            return 1;
+        }
+
+        // Call the existing code, with the content of the JSON file
+        $oldClass = new Example_Admin_ProcessConfigurationValues();
+        $oldClass-&gt;process($config);
+
+        return 0;
+    }
+}
+</code></pre>
+
+<p>Alter that you need to register this, lets create a <code>cli.php</code> script that will be the entry point from the command line, and register the recently created command.</p>
+
+<pre><code class="php">&lt;?php
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application-&gt;add(new Example_Command_ConfigFromJsonCommand());
+
+$application-&gt;run();
+</code></pre>
+
+<p>After that if you run <code>cli.php</code> from command line you should get this:</p>
+
+<pre><code class="bash">$ php cli.php
+Console Tool
+
+Usage:
+  command [options] [arguments]
+
+Options:
+  -h, --help            Display this help message
+  -q, --quiet           Do not output any message
+  -V, --version         Display this application version
+      --ansi            Force ANSI output
+      --no-ansi         Disable ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+Available commands:
+  help             Displays help for a command
+  list             Lists commands
+ setup
+  setup:load-json  Load configurations values from a JSON file
+</code></pre>
+
+<p>and to run your newly create command you just need to do:</p>
+
+<pre><code class="bash">php cli.php setup:load-json config.json
+</code></pre>
+
+<p>Done!</p>
 
         </div>
                     <p class="categories">
             Categories:
-                        <a href="http://rjsmelo.com/blog/categories/news">news</a>                        </p>
+                        <a href="http://rjsmelo.com/blog/categories/articles">articles</a>                        </p>
                             <p class="tags">
             Tags:
-                        <a href="http://rjsmelo.com/blog/tags/site">site</a>                        </p>
+                        <a href="http://rjsmelo.com/blog/tags/php">php</a>,                         <a href="http://rjsmelo.com/blog/tags/symfony">symfony</a>                        </p>
         
                     <nav class="article">
                 <ul>
-                                            <li>Next: <a class="next" href="http://rjsmelo.com/blog/2016/01/19/run-legacy-php-applications-from-command-line" title="Run legacy PHP applications from command line"><span class="title">Run legacy PHP applications from command line</span></a></li>
-                                                        </ul>
+                                                                <li>Previous: <a class="previous" href="http://rjsmelo.com/blog/2016/01/16/hello-world" title="Hello World!"><span class="title">Hello World!</span></a></li>
+                                    </ul>
             </nav>
             </article>
 

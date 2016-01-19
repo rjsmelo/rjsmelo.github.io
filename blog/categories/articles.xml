@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title><![CDATA[Ricardo Melo]]></title>
-    <link href="http://rjsmelo.com/atom.xml" rel="self"/>
+    <link href="http://rjsmelo.com/blog/categories/articles.xml" rel="self"/>
     <link href="http://rjsmelo.com/"/>
     <updated>2016-01-19T13:54:57+00:00</updated>
     <id>http://rjsmelo.com/</id>
@@ -185,30 +185,6 @@ Available commands:
 </code></pre>
 
 <p>Done!</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Hello World!]]></title>
-            <link href="http://rjsmelo.com/blog/2016/01/16/hello-world"/>
-            <updated>2016-01-16T00:00:00+00:00</updated>
-            <id>http://rjsmelo.com/blog/2016/01/16/hello-world</id>
-            <content type="html"><![CDATA[<p>Hello (again), after a few years without writing nothing more that a few tweets, and not really looking forward to restore my old wordpress blog and copy over outdated posts, just decided to have a clean start.</p>
-
-<p>Let's see how the story goes!</p>
-
-<p>For the ones there that are slightly more geeks</p>
-
-<pre><code class="php">&lt;?php
-echo "Hello World!";
-</code></pre>
-
-<p>or</p>
-
-<pre><code class="bash">#!/bin/bash
-echo "Hello World!"
-</code></pre>
-
-<p>Also thank you to <a href="https://twitter.com/loige">@loige</a> for nagging me to reopen my blog.</p>
 ]]></content>
         </entry>
     </feed>

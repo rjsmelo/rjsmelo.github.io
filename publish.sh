@@ -18,6 +18,7 @@ echo -n "Do you want to commit changes (y/n): "
 read COMMIT 
 if [ "_$COMMIT" != "_y" ] ; then
 	echo "Aborted by user command, please commit manually"
+	exit 1
 fi
 
 git commit
